@@ -19,7 +19,6 @@ int main(int argc,char *argv[])
 	pthread_t id1,id2,id3,id4;
 	int status=0;
 
-
 	/*Semaphore initialization*/
 	sem_init(&mutex,0,1);
 	sem_init(&customers,0,0);
@@ -52,7 +51,8 @@ int main(int argc,char *argv[])
 
 void* barber(void *arg)/*Barber Process*/
 {
-	while(1)
+	int i=15;
+	while(i--)
 	{
 		sem_wait(&customers);/*P(customers)*/
 		sem_wait(&mutex);/*P(mutex)*/
@@ -66,7 +66,8 @@ void* barber(void *arg)/*Barber Process*/
 
 void* customer(void *arg)/*Customers Process*/
 {
-	while(1)
+	int i=15;
+	while(i--)
 	{
 		sem_wait(&mutex);/*P(mutex)*/
 		if(count<N)

@@ -7,23 +7,20 @@
 #include<unistd.h>
 #include<stdlib.h>
 
-// I've no idea what happend here
-// seriously ???
 sem_t mutex,writeblock;
 int data = 0,rcount = 0;
 
 void *reader(void *arg)
 {
-
-    int f=(int)arg;
-    printf("Into reader %d ",f);
+    int *f=((int*)arg);
+    printf("Into reader %d ",*f);
     sem_wait(&mutex);
     rcount = rcount + 1;
     if(rcount==1)
         sem_wait(&writeblock);
     sem_post(&mutex);
-    printf("Data read by the reader %d is %d\n",f,data);
-    usleep(1);
+    printf("Data read by the reader %d is %d and rcount is %d\n",*f,data, rcount);
+    usleep(10000000);
     sem_wait(&mutex);
     rcount = rcount - 1;
     if(rcount==0)
@@ -34,11 +31,11 @@ void *reader(void *arg)
 void *writer(void *arg)
 {
     int *f=((int*) arg);
-    printf("Into writer %d",*f);
+    printf("Into writer %d ",*f);
     sem_wait(&writeblock);
     data++;
-    printf("Data writen by the writer%d is %d\n",*f,data);
-    usleep(1);
+    printf("Data writen by the writer %d is %d and rcount is %d\n",*f,data,rcount);
+    usleep(10000);
     sem_post(&writeblock);
 }
 
