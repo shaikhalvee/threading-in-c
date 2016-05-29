@@ -13,14 +13,14 @@ int data = 0,rcount = 0;
 void *reader(void *arg)
 {
 
-    int *f=((int*)arg);
-    printf("Into reader %d ",*f);
+    int f=(int)arg;
+    printf("Into reader %d ",f);
     sem_wait(&mutex);
     rcount = rcount + 1;
     if(rcount==1)
         sem_wait(&writeblock);
     sem_post(&mutex);
-    printf("Data read by the reader%d is %d\n",*f,data);
+    printf("Data read by the reader %d is %d\n",f,data);
     usleep(1);
     sem_wait(&mutex);
     rcount = rcount - 1;
