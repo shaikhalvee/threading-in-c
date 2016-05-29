@@ -8,6 +8,7 @@
 #include<stdlib.h>
 
 // I've no idea what happend here
+// seriously ???
 sem_t mutex,writeblock;
 int data = 0,rcount = 0;
 
